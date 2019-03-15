@@ -35,19 +35,50 @@
       *********************************************************************************************************************************************************** -->
   <div id="login-page">
     <div class="container">
+      <?php 
+        if(isset($_GET["id"]) && $_GET["id"] == 1) {
+          ?>
+          <div class="form-login">
+          <h2 class="form-login-heading">Success!</h2>
+          <div class="login-wrap">          
+            <label class="checkbox">Your request for new account has been sent! You can sign in after the admin approved your request</label>
+            <br>
+            <a href="login.php"><button class="btn btn-theme btn-block" name="signup"> GO BACK!</button></a>
+          </div>
+          </div>
+          <?php
+        } else if(isset($_GET["id"]) && $_GET["id"] == 2) {
+          ?>
+          <div class="form-login">
+          <h2 class="form-login-heading">Failure!</h2>
+          <div class="login-wrap">          
+            <label class="checkbox">Seems like the e-mail address is used or there is a server issue. Try another email or be back in a little bit.</label>
+            <br>
+            <a href="signup.php"><button class="btn btn-theme btn-block" name="signup">TRY ANOTHER E-MAIL</button></a>
+            <br>
+            <a href="login.php"><button class="btn btn-theme btn-block" name="signup">GO BACK!</button></a>
+          </div>
+          <
+          <?php
+        } else {
+      ?>
       <form class="form-login" method="POST">
-        <h2 class="form-login-heading">sign in now</h2>
+        <h2 class="form-login-heading">Create New Account</h2>
         <div class="login-wrap">          
           <input name="fname" type="text" class="form-control" placeholder="First Name" autofocus required>
           <br>
           <input name="lname" type="text" class="form-control" placeholder="Last Name" required>
           <br>
-          <input name="email" type="text" class="form-control" placeholder="E-mail" required>
+          <input name="email" type="email" class="form-control" placeholder="E-mail" required>
           <br>
           <input name="password" type="password" class="form-control" placeholder="Password" required>            
           <br>
           <select name="role" class="btn btn-default" required>
             <option value="" selected="true" disabled>Select Role</option>
+			<option value="site_manager">Project Manager</option>
+			<option value="site_manager">Site Engineer</option>
+			<option value="site_manager">Office Engineer</option>
+			<option value="site_manager">Finance</option>
             <option value="purchaser">Purchaser</option>
             <option value="Inventory_officer">Inventory Officer</option>
             <option value="cashier">Cashier</option>
@@ -59,6 +90,7 @@
         </div>
       </form>
       <?php
+        }
         include_once './db_functions.php';
         if(isset($_POST["signup"])) {
           $db = new db_Functions();
@@ -69,14 +101,10 @@
           $role = $_POST["role"];
           $res = $db->signUpUser($fname, $lname, $email, $password, $role);
 
-          if($res) {?>
-          <div class="container" style="color: white;">
-            Your sign-up request has been sent to the admin.<br>You can sign-in after your request is approved.
-          </div>
-          <?php
-          } else { ?>
-            <div id="msg">Your sign-up request is not sent!</div>
-          <?php
+          if($res) {
+            header("Location: signup.php?id=1");
+          } else { 
+            header("Location: signup.php?id=2");
           }
         }
       ?>

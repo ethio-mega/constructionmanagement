@@ -43,107 +43,31 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
         *********************************************************************************************************************************************************** -->
     <!--header start-->
     <?php include 'nav.php';?>
+    <!--sidebar end-->
     <!-- **********************************************************************************************************************************************************
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-          <h3><i class="fa fa-angle-right"></i>Proforma purchasing form</h3>
-        <!-- BASIC FORM ELELEMNTS -->
-        <div class="row mt">
-          <div >
-            <div class="form-panel">
-             <form class="form-horizontal style-form" method="post">
-			   
-              <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Purchasor name</label>
-                  <div class="col-sm-3">
-                    <input name="purchasor_name" type="text"  class="form-control" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Property Type</label>
-                  <div class="col-sm-3">
-                    <input name="type" type="text" class="form-control" required>
-                  </div>
-                <label class="col-sm-2 col-sm-2 control-label">Standard</label>
-                  <div class="col-sm-3">
-                    <input name="standard" type="text" class="form-control" required>
-                  </div>
-                </div>   
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Amount</label>
-                  <div class="col-sm-3">
-                    <input name="amount" type="number" class="form-control" required>
-                  </div>
-              <label class="col-sm-2 col-sm-2 control-label">Remarks</label>
-                  <div class="col-sm-3">
-                    <input name="remarks" type="text" class="form-control" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label"></label>
-                  <div class="col-sm-3">
-                    <button name="request"  type="submit" class="btn btn-round btn-warning">Send Request</button>   
-                  </div>
-                </div> 
-              </form>
-              <?php
-                include_once './db_functions.php';
-                if(isset($_POST["request"])) {
-                  $db = new DB_Functions();
-                  //Insert the requests into MySQL DB
-                  $purchasorName = $_POST["purchasor_name"];
-                  $type = $_POST["type"];
-                  $standard = $_POST["standard"];
-                  $amount = $_POST["amount"];
-				   $remarks = $_POST["remarks"];
-                  $res = $db-> sendProformaRequest($purchasorName, $type, $standard, $amount, $remarks);
-
-                  //Check if the value is inserted successfully
-                  if($res) {
-                    
-                  } else {?>
-                    <div id="msg">We couldn't register your request at the moment.</div>
-                    <div id="msg">Please, try again later.</div>                    
-                  <?php
-                  }
-                }
-              ?>
-            </div>
-          </div>
-          <!-- col-lg-12-->
-        </div>
-        <!-- /row -->
-      </section>
-      <!-- /wrapper -->
-    </section>
-    <!-- /MAIN CONTENT -->
-	
-	
-	 <section id="main-content">
-      <section >
         <div class="row mt">
           <div class="col-md-12">
-            <div>
+            <div class="content-panel">
               <?php 
                 include_once 'db_functions.php';
                 $db = new DB_Functions();
-                $res = $db->getProformaRequests();
+                $res = $db->getSignUpRequests();
 
                 if($res) {
               ?>
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> Your request so far is:</h4>
+                <h4><i class="fa fa-angle-right"></i> People asking for new account.</h4>
                 <hr>
                 <thead>
                   <tr>
-                    <th><i class="fa fa-bullhorn"></i> Purchasor Name</th>
-                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Proporty Type</th>
-                    <th><i class="fa fa-bookmark"></i> Standard</th>
-					<th><i class="fa fa-bookmark"></i> Amount</th>
-					<th><i class="fa fa-bookmark"></i> Remarks</th>
+                    <th><i class="fa fa-bullhorn"></i> Name</th>
+                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> E-mail</th>
+                    <th><i class="fa fa-bookmark"></i> Role</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -159,12 +83,10 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     while($row = mysqli_fetch_array($res)) {
                   ?>
                   <tr>
-                    <td><?php echo $row["purchasor_name"]; ?> </td>
-                    <td class="hidden-phone"><?php echo $row["type"];?></td>
-					<td class="hidden-phone"><?php echo $row["standard"];?></td>
-					<td class="hidden-phone"><?php echo $row["amount"];?></td>
-					<td class="hidden-phone"><?php echo $row["remarks"];?></td>
-              
+                    <td><?php echo $row["first_name"]." ".$row["last_name"]; ?>
+                    </td>
+                    <td class="hidden-phone"><?php echo $row["e_mail"];?></td>
+                    <td><?php echo $row["role"]; ?> </td>
                     <td>
                       <form method="POST">
                         <button type="submit" name="accept" value="<?php echo $row["e_mail"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
@@ -182,7 +104,34 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   <?php
                 }
 
-           
+                if(isset($_POST["accept"])) {
+                  $email = $_POST["accept"];
+                  $res = $db->acceptSignUpRequest($email);
+
+                  if($res) {
+                    ?>
+                    <div>You have accepted the request!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                } else if(isset($_POST["decline"])) {
+                  $email = $_POST["decline"];
+                  $res = $db->declineSignUpRequest($email);
+                  if($res) {
+                    ?>
+                    <div>You have accepted the request!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";                       
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                }
               ?>
             </div>
             <!-- /content-panel -->
@@ -192,6 +141,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
         <!-- /row -->
       </section>
     </section>
+    <!-- /MAIN CONTENT -->
     <!--main content end-->
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
@@ -208,12 +158,12 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script type="text/javascript" src="lib/gritter-conf.js"></script>
   <!--script for this page-->
   <script src="lib/sparkline-chart.js"></script>
-  <script src="lib/zabuto_calendar.js"></script>  
+  <script src="lib/zabuto_calendar.js"></script>
 </body>
 
 </html>
 <?php
 } else {
-  header("Location: login.php");     
+  header("Location: login.php");  
 }
 ?>
