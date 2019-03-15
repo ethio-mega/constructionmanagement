@@ -112,6 +112,7 @@
             while($row = mysqli_fetch_array($res)) {
                $_SESSION["firstname"] = $row["first_name"];
                $_SESSION["lastname"] = $row["last_name"];
+               $_SESSION["role"] = $row["role"];
             }   
             if(isset($_SESSION["login_chances"])) {
               unset($_SESSION['login_chances']);
