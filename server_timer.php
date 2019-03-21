@@ -24,8 +24,6 @@
       } else {
         $converted = secondsToTime($difference);
         echo $converted['d']."d ".$converted['h']."h ".$converted['m']."m ".$converted['s']."s";
-        file_put_contents($timestamp_file, time()+$timer);
-
       }
 
 
