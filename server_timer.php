@@ -1,5 +1,5 @@
 <?php
-      $timer = 60*800; // seconds
+      $timer = 60*100; // seconds
       $timestamp_file = 'end_timestamp.txt';
       if(!file_exists($timestamp_file))
       {
