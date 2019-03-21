@@ -1,5 +1,5 @@
 <?php
-      $timer = 60*5000000; // seconds
+      $timer = 60*500; // seconds
       $timestamp_file = 'end_timestamp.txt';
       if(!file_exists($timestamp_file))
       {
@@ -24,6 +24,8 @@
       } else {
         $converted = secondsToTime($difference);
         echo $converted['d']."d ".$converted['h']."h ".$converted['m']."m ".$converted['s']."s";
+        file_put_contents($timestamp_file, time()+$timer);
+
       }
 
 
