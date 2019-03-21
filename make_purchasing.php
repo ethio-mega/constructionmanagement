@@ -79,6 +79,160 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
     
     <!--footer end-->
   </section>
+  <section id="main-content">
+      <section class="wrapper">
+        <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <?php 
+                include_once 'db_functions.php';
+                $db = new DB_Functions();
+                $res = $db->getApprovedMaterial();
+
+                if($res) {
+              ?>
+              <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> Matrials that are requested.</h4>
+                <hr>
+                <thead>
+                  <tr>
+				    <th><i class="fa fa-bookmark"></i> ID</th>
+                    <th><i class="fa fa-bullhorn"></i> Requestor Name</th>
+                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Material Description</th>
+                    <th><i class="fa fa-bookmark"></i> Unit</th>
+					<th><i class="fa fa-bookmark"></i> Quantity</th>
+					<th><i class="fa fa-wrench"></i>Remarks</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                    if(mysqli_num_rows($res) == 0) {
+                      ?>
+                      <tr>
+                        <td>THERE ARE NO Approved material YET.</td>
+                      </tr>
+                      <?php
+                    }
+                    while($row = mysqli_fetch_array($res)) {
+                  ?>
+                  <tr>
+				  	<td><?php echo $row["id"];?></td>
+                    <td><?php echo $row["purchasor_name"]; ?>
+                    </td>
+                    <td><?php echo $row["type"];?></td>
+                    <td><?php echo $row["standard"]; ?> </td>
+					<td><?php echo $row["amount"]; ?> </td>
+					<td><?php echo $row["remark"]; ?> </td>
+                    <td>
+                      <form method="POST">
+                        <button name="assign_db"  type="submit" class="btn btn-round btn-warning">DB</button>
+						<button name="assign_lp"  type="submit" class="btn btn-round btn-warning">LP</button>
+						<button name="assign_op"  type="submit" class="btn btn-round btn-warning">OP</button>
+						<button name="assign_pro"  type="submit" class="btn btn-round btn-warning">Pro</button>
+                      </form>
+                    </td>
+                  </tr>
+                  <?php } ?>
+                </tbody>
+              </table>
+              <?php
+                } else {
+                  ?>
+                  <div>Something went wrong!</div>
+                  <?php
+                }
+
+                if(isset($_POST["assign_db"])) {
+					include_once 'db_functions.php';
+                $db = new DB_Functions();
+                  //Insert the requests into MySQL DB
+				 /*
+				  $db = new DB_Functions();
+				  $id = $_POST["id"];
+                  $purchasorName = $_POST["purchasor_name"];
+                  $type = $_POST["type"];
+                  $standard = $_POST["standard"];
+                  $amount = $_POST["amount"];
+				   $remarks = $_POST["remarks"];
+				 */
+				   
+                  $res = $db->assign_direct_biding();
+
+                  if($res) {
+                    ?>
+                    <div>You have assign to direct bidding!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                } else if(isset($_POST["assign_lp"])) {
+					$db = new DB_Functions();
+				  $purchasorName = $_POST["purchasor_name"];
+                  $type = $_POST["type"];
+                  $standard = $_POST["standard"];
+                  $amount = $_POST["amount"];
+				  $remarks = $_POST["remarks"];
+                  $res = $db->assign_limited_pro($purchasorName, $type, $standard, $amount, $remarks);
+                  if($res) {
+                    ?>
+                    <div>You have assign to limited procurment!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";                       
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                }else if(isset($_POST["assign_op"])) {
+					$db = new DB_Functions();
+                  $purchasorName = $_POST["purchasor_name"];
+                  $type = $_POST["type"];
+                  $standard = $_POST["standard"];
+                  $amount = $_POST["amount"];
+				   $remarks = $_POST["remarks"];
+                  $res = $db->assign_open_pro($purchasorName, $type, $standard, $amount, $remarks);
+                  if($res) {
+                    ?>
+                    <div>You have assign to open procurment!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";                       
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                }else if(isset($_POST["assign_pro"])) {
+					$db = new DB_Functions();
+                  $purchasorName = $_POST["purchasor_name"];
+                  $type = $_POST["type"];
+                  $standard = $_POST["standard"];
+                  $amount = $_POST["amount"];
+				   $remarks = $_POST["remarks"];
+                  $res = $db->assign_proforma($purchasorName, $type, $standard, $amount, $remarks);
+                  if($res) {
+                    ?>
+                    <div>You have assign to proforma!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";                       
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                }
+              ?>
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        <!-- /row -->
+      </section>
+    </section>
   <!-- js placed at the end of the document so the pages load faster -->
   <script src="lib/jquery/jquery.min.js"></script>
 

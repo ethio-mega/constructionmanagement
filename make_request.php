@@ -43,42 +43,54 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
         *********************************************************************************************************************************************************** -->
     <!--header start-->
     <?php include 'nav.php';?>
-    <!--sidebar end-->
     <!-- **********************************************************************************************************************************************************
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
-    <!--main content start-->
+      <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i>Inventory Request Form</h3>
+        <h3><i class="fa fa-angle-right"></i>Purchasing Request</h3>
         <!-- BASIC FORM ELELEMNTS -->
         <div class="row mt">
-          <div class="col-lg-12">
+          <div >
             <div class="form-panel">
-              <h4 class="mb"><i class="fa fa-angle-right"></i>Direct Bidding form.</h4>
-              <form class="form-horizontal style-form" method="post">
+            
+             <form class="form-horizontal style-form" method="post">
+			   
               <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Purchasor name</label>
+                  <label class="col-sm-2 col-sm-2 control-label">Requestor Name</label>
                   <div class="col-sm-3">
-                    <input name="purchasor_name" type="text" value="<?php echo ucfirst($_SESSION["firstname"])." ".ucfirst($_SESSION["lastname"])?>" class="form-control" required>
+                    <input name="purchasor_name" type="text"  class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Type</label>
+                  <label class="col-sm-2 col-sm-2 control-label">Material Description</label>
                   <div class="col-sm-3">
                     <input name="type" type="text" class="form-control" required>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Standard</label>
+				  </div>
+			 <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">Unit</label>
                   <div class="col-sm-3">
                     <input name="standard" type="text" class="form-control" required>
                   </div>
-                </div>
+                </div>   
+				
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Amount</label>
+                  <label class="col-sm-2 col-sm-2 control-label">Quantity</label>
                   <div class="col-sm-3">
                     <input name="amount" type="number" class="form-control" required>
+                  </div>
+				  </div>
+				  <div class="form-group">
+              <label class="col-sm-2 col-sm-2 control-label">Remarks</label>
+                  <div class="col-sm-3">
+                    <select name="remarks" class="btn btn-default" required>
+            <option value="" selected="true" disabled>Select Remark</option>
+			<option value="construction_material">Construction Material</option>
+			<option value="engine_material">Engine Material</option>
+			<option value="wested_material">wested Material</option>
+          </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -97,8 +109,8 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   $type = $_POST["type"];
                   $standard = $_POST["standard"];
                   $amount = $_POST["amount"];
-				  
-                  $res = $db-> sendPurchaserRequest($purchasorName, $type, $standard, $amount);
+				   $remarks = $_POST["remarks"];
+                  $res = $db-> sendPurchaserRequest($purchasorName, $type, $standard, $amount, $remarks);
 
                   //Check if the value is inserted successfully
                   if($res) {
@@ -118,6 +130,11 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
       </section>
       <!-- /wrapper -->
     </section>
+    <!-- /MAIN CONTENT -->
+	
+	
+	
+	
     <!-- /MAIN CONTENT -->
     <!--main content end-->
   </section>

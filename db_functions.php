@@ -37,9 +37,9 @@ class DB_Functions {
 	
 
 	
-    public function sendPurchaserRequest($purchasorName, $type, $standard, $amount) {
+    public function sendPurchaserRequest($purchasorName, $type, $standard, $amount, $remark) {
         $connection = $this->db->connect();
-        $result = mysqli_query($connection, "INSERT INTO purchase_requests(purchasor_name, type, standard, amount) values('$purchasorName', '$type', '$standard', $amount)");
+        $result = mysqli_query($connection, "INSERT INTO purchase_requests(purchasor_name, type, standard, amount, remark) values('$purchasorName', '$type', '$standard', $amount, '$remark')");
         if($result) {
             return true;
         } else {
@@ -120,8 +120,13 @@ class DB_Functions {
         $result = mysqli_query($connection, "SELECT * FROM bidding_request");
         return $result;
     }
-    
 	
+    
+	public function getApprovedMaterial() {
+        $connection = $this->db->connect();    
+        $result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_finance = 1 and accept_by_inventory = 1 and accept_by_project_manager =1");
+        return $result;
+    }
 	 public function getLimitedProcurmentRequests() {
         $connection = $this->db->connect();    
         $result = mysqli_query($connection, "SELECT * FROM limited_pro_request");
@@ -136,9 +141,19 @@ class DB_Functions {
 	/**
 	* Getting all request from Purchaser
 	*/
-	public function getrequestFromPurchaser() {
+	public function getrequestFromPurchaser_inventory() {
 		$connection = $this->db->connect();
-		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where status = 0");
+		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_inventory = 0");
+		return $result;
+	}
+	public function getrequestFromPurchaser_casher() {
+		$connection = $this->db->connect();
+		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_finance = 0");
+		return $result;
+	}
+	public function getrequestFromPurchaser_proManeger() {
+		$connection = $this->db->connect();
+		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_project_manager = 0");
 		return $result;
 	}
     /**
@@ -164,18 +179,44 @@ class DB_Functions {
 		$result = mysqli_query($connection, "UPDATE users SET status = 1 WHERE e_mail = '$email'");
 		return $result;
 	}
+	/* 		
+		approve purchasing request by three actors
 
-	public function declinePurchasorRequest($id) {
+	*/
+	public function declinePurchasorRequest_inventory($id) {
         $connection = $this->db->connect();            
         $result = mysqli_query($connection, "DELETE FROM purchase_requests WHERE id = '$id'");
         return $result;
     }
 	
-	public function acceptPurchasorRequest($id){
+	public function acceptPurchasorRequest_inventory($id){
         $connection = $this->db->connect();            
-		$result = mysqli_query($connection, "UPDATE purchase_requests SET status = 1 WHERE id = '$id'");
+		$result = mysqli_query($connection, "UPDATE purchase_requests SET accept_by_inventory = 1 WHERE id = '$id'");
 		return $result;
     }
+	public function declinePurchasorRequest_casher($id) {
+        $connection = $this->db->connect();            
+        $result = mysqli_query($connection, "DELETE FROM purchase_requests WHERE id = '$id'");
+        return $result;
+    }
+	
+	public function acceptPurchasorRequest_casher($id){
+        $connection = $this->db->connect();            
+		$result = mysqli_query($connection, "UPDATE purchase_requests SET accept_by_finance = 1 WHERE id = '$id'");
+		return $result;
+    }
+	public function declinePurchasorRequest_proManeger($id) {
+        $connection = $this->db->connect();            
+        $result = mysqli_query($connection, "DELETE FROM purchase_requests WHERE id = '$id'");
+        return $result;
+    }
+	
+	public function acceptPurchasorRequest_proManeger($id){
+        $connection = $this->db->connect();            
+		$result = mysqli_query($connection, "UPDATE purchase_requests SET accept_by_project_manager = 1 WHERE id = '$id'");
+		return $result;
+    }
+	/*end of approval*/
     
      /*
         select list of materials which is not approved
@@ -312,6 +353,60 @@ class DB_Functions {
        $result = mysqli_query($connection,"SELECT * FROM approved_pr");
        return $result;
    }
+   public function getofficer() {
+        $connection = $this->db->connect();    
+        $result = mysqli_query($connection, "SELECT * FROM attendance_pw");
+        return $result;
+    }
+	
+	 public function addofficer($fname, $position) {
+        $connection = $this->db->connect();
+        $result = mysqli_query($connection, "INSERT INTO attendance_pw(name, position) values('$fname', '$position')");
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	//catagorize approved materail in to different purchasing methods
+	public function assign_direct_biding($id, $purchasorName, $type, $standard, $amount, $remarks) {
+			$connection = $this->db->connect();
+			$result = mysqli_query($connection, "INSERT INTO bidding_request(id, purchasor_name, type, standard, amount, remarks) values('$id', '$purchasorName', '$type', '$standard', '$amount','$remarks')");
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	public function assign_limited_pro($purchasorName, $type, $standard, $amount, $remarks) {
+			$connection = $this->db->connect();
+			$result = mysqli_query($connection, "INSERT INTO bidding_request(purchasor_name, type, standard, amount, remarks) values('$purchasorName', '$type', '$standard', '$amount','$remarks')");
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	public function assign_open_pro($purchasorName, $type, $standard, $amount, $remarks) {
+			$connection = $this->db->connect();
+			$result = mysqli_query($connection, "INSERT INTO bidding_request(purchasor_name, type, standard, amount, remarks) values('$purchasorName', '$type', '$standard', '$amount','$remarks')");
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	public function assign_proforma($purchasorName, $type, $standard, $amount, $remarks) {
+			$connection = $this->db->connect();
+			$result = mysqli_query($connection, "INSERT INTO bidding_request(purchasor_name, type, standard, amount, remarks) values('$purchasorName', '$type', '$standard', '$amount','$remarks')");
+        if($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
 
   }  
 

@@ -123,7 +123,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   $res = $db->declineSignUpRequest($email);
                   if($res) {
                     ?>
-                    <div>You have accepted the request!</div>
+                    <div>You have decline the request!</div>
                     <?php
                     echo "<meta http-equiv='refresh' content='0'>";                       
                   } else {

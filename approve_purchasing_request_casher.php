@@ -56,7 +56,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
               <?php 
                 include_once 'db_functions.php';
                 $db = new DB_Functions();
-                $res = $db->getrequestFromPurchaser_inventory();
+                $res = $db->getrequestFromPurchaser_casher();
 
                 if($res) {
               ?>
@@ -112,7 +112,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
 
                 if(isset($_POST["accept"])) {
                   $id = $_POST["accept"];
-                  $res = $db->acceptPurchasorRequest_inventory($id);
+                  $res = $db->acceptPurchasorRequest_casher($id);
 
                   if($res) {
                     ?>
@@ -126,7 +126,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   }
                 } else if(isset($_POST["decline"])) {
                   $id = $_POST["decline"];
-                  $res = $db->declinePurchasorRequest_inventory($id);
+                  $res = $db->declinePurchasorRequest_casher($id);
                   if($res) {
                     ?>
                     <div>You have accepted the request!</div>

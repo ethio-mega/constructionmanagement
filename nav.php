@@ -79,15 +79,15 @@
               <span>Dashboard</span>
               </a>
           </li>
-          <!-- <li class="sub-menu">
+           <li class="sub-menu">
             <a href="index.php">
               <i class="fa fa-user-md"></i>
               <span>Project Manager</span>
               </a>
 			  <ul class="sub">
-              <li><a href="approve_purchasing_request.php">Approve Purchasing Request</a></li>
+              <li><a href="approve_purchasing_request_pm.php">Approve Purchasing Request</a></li>
             </ul>
-          </li> -->
+          </li> 
 		  <!-- <li class="sub-menu">
             <a href="index.php">
               <i class="fa fa-user-md"></i>
@@ -109,6 +109,9 @@
               <i class="fa fa-user-md"></i>
               <span>HR Management</span>
               </a>
+			  <ul class="sub">
+                <li><a href="attendance.php">Attendance</a></li>
+              </ul>
           </li>
 		  <li class="sub-menu">
             <a href="index.php">
@@ -122,10 +125,10 @@
               <span>Finance</span>
               </a>
               <ul class="sub">
-                <li><a href="make_purchasing.php">Purchasing</a></li>
+                <li><a href="approve_purchasing_request_casher.php">Purchasing</a></li>
               </ul>
           </li>
-		  <!-- <li class="sub-menu">
+		   <li class="sub-menu">
             <a href="index.php">
               <i class="fa fa-user-md"></i>
               <span>Casher</span>
@@ -134,8 +137,8 @@
               <li><a href="approve_purchasing_request.php">Approve Purchase Request</a></li>
               
             </ul>
-          </li> -->
-          <!-- <li class="sub-menu">
+          </li> 
+           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-barcode"></i>
               <span>Purchaser</span>
@@ -144,7 +147,7 @@
               <li><a href="make_request.php">Make Request</a></li>
               <li><a href="make_purchasing.php">Perchase Methods</a></li>
             </ul>
-          </li> -->
+          </li> 
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-flash"></i>

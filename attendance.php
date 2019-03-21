@@ -56,21 +56,23 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
               <?php 
                 include_once 'db_functions.php';
                 $db = new DB_Functions();
-                $res = $db->getrequestFromPurchaser_inventory();
+                $res = $db->getofficer();
 
                 if($res) {
               ?>
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> Matrials that are requested.</h4>
+                <h4><i class="fa fa-angle-right"></i> Permanent Officers.</h4>
+				 <div class="registration">
+            <a class="" href="add_officer.php">
+              Add officer
+              </a>
+          </div>
                 <hr>
                 <thead>
                   <tr>
-				    <th><i class="fa fa-bookmark"></i> ID</th>
-                    <th><i class="fa fa-bullhorn"></i> Requestor Name</th>
-                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Material Description</th>
-                    <th><i class="fa fa-bookmark"></i> Unit</th>
-					<th><i class="fa fa-bookmark"></i> Quantity</th>
-					<th><i class="fa fa-wrench"></i>Remarks</th>
+                    <th><i class="fa fa-bullhorn"></i> ID</th>
+                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Name</th>
+                    <th><i class="fa fa-bookmark"></i> Position</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -79,24 +81,22 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     if(mysqli_num_rows($res) == 0) {
                       ?>
                       <tr>
-                        <td>THERE ARE NO REQUESTS YET.</td>
+                        <td>THERE ARE NO Officer.</td>
                       </tr>
                       <?php
                     }
                     while($row = mysqli_fetch_array($res)) {
                   ?>
                   <tr>
-				  	<td><?php echo $row["id"];?></td>
-                    <td><?php echo $row["purchasor_name"]; ?>
+                    <td><?php echo $row["id"]; ?>
                     </td>
-                    <td class="hidden-phone"><?php echo $row["type"];?></td>
-                    <td><?php echo $row["standard"]; ?> </td>
-					<td><?php echo $row["amount"]; ?> </td>
-					<td><?php echo $row["remark"]; ?> </td>
+                    <td class="hidden-phone"><?php echo $row["name"];?></td>
+                    <td><?php echo $row["position"]; ?> </td>
                     <td>
                       <form method="POST">
-                        <button type="submit" name="accept" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                        <button type="submit" name="decline" value="<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                        <button type="submit" name="peresent" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+						<button type="submit" name="persmission" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-question-circle"></i></button>
+                        <button type="submit" name="absent" value="<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs"><i class="fa fa-minus-circle "></i></button>
                       </form>
                     </td>
                   </tr>
@@ -109,10 +109,11 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   <div>Something went wrong!</div>
                   <?php
                 }
+				
 
-                if(isset($_POST["accept"])) {
-                  $id = $_POST["accept"];
-                  $res = $db->acceptPurchasorRequest_inventory($id);
+                if(isset($_POST["peresent"])) {
+                  $email = $_POST["peresent"];
+                  $res = $db->acceptSignUpRequest($email);
 
                   if($res) {
                     ?>
@@ -124,9 +125,23 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <div>Something went wrong!</div>
                     <?php
                   }
-                } else if(isset($_POST["decline"])) {
-                  $id = $_POST["decline"];
-                  $res = $db->declinePurchasorRequest_inventory($id);
+                }else if(isset($_POST["persmission"])) {
+                  $email = $_POST["persmission"];
+				 
+                  $res = $db->declineSignUpRequest($email);
+                  if($res) {
+                    ?>
+                    <div>You have accepted the request!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";                       
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                }else if(isset($_POST["absent"])) {
+                  $email = $_POST["absent"];
+                  $res = $db->declineSignUpRequest($email);
                   if($res) {
                     ?>
                     <div>You have accepted the request!</div>

@@ -43,7 +43,7 @@
           <div class="login-wrap">          
             <label class="checkbox">Your request for new account has been sent! You can sign in after the admin approved your request</label>
             <br>
-            <a href="login.php"><button class="btn btn-theme btn-block" name="signup"> GO BACK!</button></a>
+            <a href="attendance.php"><button class="btn btn-theme btn-block" name="signup"> GO BACK!</button></a>
           </div>
           </div>
           <?php
@@ -54,9 +54,9 @@
           <div class="login-wrap">          
             <label class="checkbox">Seems like the e-mail address is used or there is a server issue. Try another email or be back in a little bit.</label>
             <br>
-            <a href="signup.php"><button class="btn btn-theme btn-block" name="signup">TRY ANOTHER E-MAIL</button></a>
+            <a href="add_officer.php"><button class="btn btn-theme btn-block" name="signup">TRY ANOTHER E-MAIL</button></a>
             <br>
-            <a href="login.php"><button class="btn btn-theme btn-block" name="signup">GO BACK!</button></a>
+            <a href="attendance.php"><button class="btn btn-theme btn-block" name="signup">GO BACK!</button></a>
           </div>
           <
           <?php
@@ -67,26 +67,14 @@
         <div class="login-wrap">          
           <input name="fname" type="text" class="form-control" placeholder="First Name" autofocus required>
           <br>
-          <input name="lname" type="text" class="form-control" placeholder="Last Name" required>
+         <!-- <input name="lname" type="text" class="form-control" placeholder="Last Name" required>
+          <br> -->
+          <input name="position" type="text" class="form-control" placeholder="position" required>          
+         
+         
+         <!-- <label class="checkbox"></label> -->
           <br>
-          <input name="email" type="email" class="form-control" placeholder="E-mail" required>
-          <br>
-          <input name="password" type="password" class="form-control" placeholder="Password" required>            
-          <br>
-          <select name="role" class="btn btn-default" required>
-            <option value="" selected="true" disabled>Select Role</option>
-			<option value="project_manager">Project Manager</option>
-			<option value="site_engineer">Site Engineer</option>
-			<option value="0ffice_engineer">Office Engineer</option>
-			<option value="finance">Finance</option>
-            <option value="purchaser">Purchaser</option>
-            <option value="Inventory_officer">Inventory Officer</option>
-            <option value="cashier">Cashier</option>
-            <option value="site_manager">Site Manager</option>
-          </select>
-          <label class="checkbox"></label>
-          <br>
-          <button class="btn btn-theme btn-block" name="signup" type="submit"> SING UP</button>
+          <button class="btn btn-theme btn-block" name="signup" type="submit"> Add Officer</button>
         </div>
       </form>
       <?php
@@ -95,16 +83,13 @@
         if(isset($_POST["signup"])) {
           $db = new db_Functions();
           $fname = $_POST["fname"];
-          $lname = $_POST["lname"];
-          $email = $_POST["email"];
-          $password = $_POST["password"];
-          $role = $_POST["role"];
-          $res = $db->signUpUser($fname, $lname, $email, $password, $role);
+          $position = $_POST["position"];
+          $res = $db->addofficer($fname, $position);
 
           if($res) {
-            header("Location: signup.php?id=1");
+            header("Location: add_officer.php?id=1");
           } else { 
-            header("Location: signup.php?id=2");
+            header("Location: add_officer.php?id=2");
           }
         }
       ?>

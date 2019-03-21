@@ -64,23 +64,33 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Property Type</label>
+                  <label class="col-sm-2 col-sm-2 control-label">Material Description</label>
                   <div class="col-sm-3">
                     <input name="type" type="text" class="form-control" required>
                   </div>
-                <label class="col-sm-2 col-sm-2 control-label">Standard</label>
+				  </div>
+			 <div class="form-group">
+                <label class="col-sm-2 col-sm-2 control-label">Unit</label>
                   <div class="col-sm-3">
                     <input name="standard" type="text" class="form-control" required>
                   </div>
                 </div>   
+				
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Amount</label>
+                  <label class="col-sm-2 col-sm-2 control-label">Quantity</label>
                   <div class="col-sm-3">
                     <input name="amount" type="number" class="form-control" required>
                   </div>
+				  </div>
+				  <div class="form-group">
               <label class="col-sm-2 col-sm-2 control-label">Remarks</label>
                   <div class="col-sm-3">
-                    <input name="remarks" type="text" class="form-control" required>
+                    <select name="remarks" class="btn btn-default" required>
+            <option value="" selected="true" disabled>Select Remark</option>
+			<option value="construction_material">Construction Material</option>
+			<option value="engine_material">Engine Material</option>
+			<option value="wested_material">wested Material</option>
+          </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -138,7 +148,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                 if($res) {
               ?>
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> Your request so far is:</h4>
+                <h4><i class="fa fa-angle-right"></i> The materials had approved so far is:</h4>
                 <hr>
                 <thead>
                   <tr>
@@ -155,7 +165,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     if(mysqli_num_rows($res) == 0) {
                       ?>
                       <tr>
-                        <td>THERE ARE NO REQUESTS YET.</td>
+                        <td>THERE ARE NO approved material YET.</td>
                       </tr>
                       <?php
                     }
