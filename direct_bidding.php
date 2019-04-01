@@ -92,10 +92,10 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <td><?php echo $row["requestor_name"]; ?> </td>
                     <td><?php echo $row["unit"];?></td>
 					          <td><?php echo $row["quantity"];?></td>
-					          <td><input type="number" name="unit-price" onChange = "onUnitPriceChange(<?php echo $row["id"] ?>, this.value)" value=<?php echo $row["unit_price"];?>></td>
-					          <td><?php echo $row["sub_total"];?></td>
-					          <td><input maxlength="2" type="number" name="vat" onChange = "onVATChange(<?php echo $row["id"] ?>, this.value)"  value=<?php echo $row["vat"];?>>%</td>
-					          <td><?php echo $row["total"];?></td>
+					          <td><input id="unitprice<?php echo $row["id"] ?>" type="number" name="unit-price" onChange = "onUnitPriceChange(<?php echo $row["id"] ?>, this.value)" value=<?php echo $row["unit_price"];?>></td>
+					          <td id="subtotal<?php echo $row['id']?>"><?php echo $row["sub_total"]?></td>
+					          <td><input id="vat<?php echo $row['id']?>" maxlength="2" type="number" name="vat" onChange = "onVATChange(<?php echo $row["id"] ?>, this.value)"  value=<?php echo $row["vat"];?>>%</td>
+					          <td id="total<?php echo $row['id']?>"><?php echo $row["total"];?></td>
 					          <td><?php echo $row["remark"];?></td>
                   </tr>
                   <?php } ?>
@@ -133,11 +133,13 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
     function onUnitPriceChange(itemId, value) {
     $.ajax({
       type: "POST",
-      dataType: "text",
+      dataType: "json",
       url: "bidding_calculator.php", //Relative or absolute path to response.php file
       data: {item_id: itemId, value: value},
       success: function(data) {        
-        location.reload();
+        $("#subtotal"+itemId).html(data.subtotal);
+        $("#vat"+itemId).val(data.vat);
+        $("#total"+itemId).html(data.total);
       }
     });
     }
@@ -146,11 +148,13 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
     function onVATChange(itemId, value) {
     $.ajax({
       type: "POST",
-      dataType: "text",
+      dataType: "json",
       url: "bidding_calculator.php", //Relative or absolute path to response.php file
       data: {item_id_vat: itemId, value_vat: value},
-      success: function(data) {    
-        location.reload();
+      success: function(data) {               
+        $("#subtotal"+itemId).html(data.subtotal);
+        $("#vat"+itemId).val(data.vat);
+        $("#total"+itemId).html(data.total);
       }
     });
     }
