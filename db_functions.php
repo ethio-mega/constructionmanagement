@@ -39,7 +39,7 @@ class DB_Functions {
 	
     public function sendPurchaserRequest($purchasorName, $type, $standard, $amount, $remark) {
         $connection = $this->db->connect();
-        $result = mysqli_query($connection, "INSERT INTO purchase_requests(purchasor_name, type, standard, amount, remark) values('$purchasorName', '$type', '$standard', $amount, '$remark')");
+        $result = mysqli_query($connection, "INSERT INTO purchasing_request(requestor_name, material_description, unit, quantity, remark) values('$purchasorName', '$type', '$standard', $amount, '$remark')");
         if($result) {
             return true;
         } else {
@@ -117,14 +117,14 @@ class DB_Functions {
      */
     public function getBiddingRequests() {
         $connection = $this->db->connect();    
-        $result = mysqli_query($connection, "SELECT * FROM bidding_request");
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance=1 AND accept_by_inventory = 1 AND accept_by_pm = 1");
         return $result;
     }
 	
     
 	public function getApprovedMaterial() {
         $connection = $this->db->connect();    
-        $result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_finance = 1 and accept_by_inventory = 1 and accept_by_project_manager =1");
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance = 1 and accept_by_inventory = 1 and accept_by_pm =1");
         return $result;
     }
 	 public function getLimitedProcurmentRequests() {
@@ -143,17 +143,17 @@ class DB_Functions {
 	*/
 	public function getrequestFromPurchaser_inventory() {
 		$connection = $this->db->connect();
-		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_inventory = 0");
+		$result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_inventory = 0");
 		return $result;
 	}
 	public function getrequestFromPurchaser_casher() {
 		$connection = $this->db->connect();
-		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_finance = 0");
+		$result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance = 0");
 		return $result;
 	}
 	public function getrequestFromPurchaser_proManeger() {
 		$connection = $this->db->connect();
-		$result = mysqli_query($connection, "SELECT * FROM purchase_requests where accept_by_project_manager = 0");
+		$result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_pm = 0");
 		return $result;
 	}
     /**
@@ -185,35 +185,35 @@ class DB_Functions {
 	*/
 	public function declinePurchasorRequest_inventory($id) {
         $connection = $this->db->connect();            
-        $result = mysqli_query($connection, "DELETE FROM purchase_requests WHERE id = '$id'");
+        $result = mysqli_query($connection, "DELETE FROM purchasing_request WHERE id = '$id'");
         return $result;
     }
 	
 	public function acceptPurchasorRequest_inventory($id){
         $connection = $this->db->connect();            
-		$result = mysqli_query($connection, "UPDATE purchase_requests SET accept_by_inventory = 1 WHERE id = '$id'");
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET accept_by_inventory = 1 WHERE id = '$id'");
 		return $result;
     }
 	public function declinePurchasorRequest_casher($id) {
         $connection = $this->db->connect();            
-        $result = mysqli_query($connection, "DELETE FROM purchase_requests WHERE id = '$id'");
+        $result = mysqli_query($connection, "DELETE FROM purchasing_request WHERE id = '$id'");
         return $result;
     }
 	
 	public function acceptPurchasorRequest_casher($id){
         $connection = $this->db->connect();            
-		$result = mysqli_query($connection, "UPDATE purchase_requests SET accept_by_finance = 1 WHERE id = '$id'");
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET accept_by_finance = 1 WHERE id = '$id'");
 		return $result;
     }
 	public function declinePurchasorRequest_proManeger($id) {
         $connection = $this->db->connect();            
-        $result = mysqli_query($connection, "DELETE FROM purchase_requests WHERE id = '$id'");
+        $result = mysqli_query($connection, "DELETE FROM purchasing_request WHERE id = '$id'");
         return $result;
     }
 	
 	public function acceptPurchasorRequest_proManeger($id){
         $connection = $this->db->connect();            
-		$result = mysqli_query($connection, "UPDATE purchase_requests SET accept_by_project_manager = 1 WHERE id = '$id'");
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET accept_by_pm = 1 WHERE id = '$id'");
 		return $result;
     }
 	/*end of approval*/
@@ -224,7 +224,7 @@ class DB_Functions {
       */   
       public function requiredMaterial(){
           $connection = $this->db->connect();
-          $result = mysqli_query($connection,"SELECT * from purchase_requests");
+          $result = mysqli_query($connection,"SELECT * from purchasing_request");
           return $result;
       }
 
@@ -235,7 +235,7 @@ class DB_Functions {
 
          $connection = $this->db->connect(); 
          mysqli_query($connection,"INSERT into approved_pr values('','$material_desc','$quantity','$dt','$sub_date','$name','$unit','$unit_price','$total_price','$remark')");
-         mysqli_query($connection,"DELETE FROM purchase_requests WHERE material_description = '$material_desc'"); 
+         mysqli_query($connection,"DELETE FROM purchasing_request WHERE material_description = '$material_desc'"); 
 
         }
 
@@ -294,7 +294,7 @@ class DB_Functions {
 
      public function declineRequest($type){
          $connection = $this->db->connect();
-         $result = mysqli_query($connection,"DELETE FROM purchase_requests Where type = '$type'");
+         $result = mysqli_query($connection,"DELETE FROM purchasing_request Where type = '$type'");
         }  
 
      public function store(){
@@ -306,14 +306,14 @@ class DB_Functions {
      //draw inventory
      public function drawInventory($type,$standard,$currentAmount){
         $connection = $this->db->connect();
-        mysqli_query($connection,"UPDATE purchase_requests SET amount = $currentAmount WHERE type = '$type' ");    
+        mysqli_query($connection,"UPDATE purchasing_request SET amount = $currentAmount WHERE type = '$type' ");    
       
       }
 
      //to notify inventory manager
      public function numInventory(){
         $connection = $this->db->connect();
-        $result = mysqli_query($connection,"SELECT * from purchase_requests WHERE acceptance_status = 0");
+        $result = mysqli_query($connection,"SELECT * from purchasing_request WHERE acceptance_status = 0");
         return $result;
     }
    
@@ -408,7 +408,4 @@ class DB_Functions {
     }
 	
 
-  }  
-
-
-?>
+  } ?>

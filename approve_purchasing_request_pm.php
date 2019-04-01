@@ -87,11 +87,11 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   ?>
                   <tr>
 				  	<td><?php echo $row["id"];?></td>
-                    <td><?php echo $row["purchasor_name"]; ?>
+                    <td><?php echo $row["requestor_name"]; ?>
                     </td>
-                    <td class="hidden-phone"><?php echo $row["type"];?></td>
-                    <td><?php echo $row["standard"]; ?> </td>
-					<td><?php echo $row["amount"]; ?> </td>
+                    <td class="hidden-phone"><?php echo $row["material_description"];?></td>
+                    <td><?php echo $row["unit"]; ?> </td>
+					<td><?php echo $row["quantity"]; ?> </td>
 					<td><?php echo $row["remark"]; ?> </td>
                     <td>
                       <form method="POST">
