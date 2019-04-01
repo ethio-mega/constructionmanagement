@@ -90,18 +90,13 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <td><input type="checkbox"/></td>
                     <td><?php echo $row["id"]; ?> </td>
                     <td><?php echo $row["requestor_name"]; ?> </td>
-                    <td class="hidden-phone"><?php echo $row["unit"];?></td>
-					          <td class="hidden-phone"><?php echo $row["quantity"];?></td>
-					          <td class="hidden-phone"><?php echo $row["unit_price"];?></td>
-					          <td class="hidden-phone"><?php echo $row["sub_total"];?></td>
-					          <td class="hidden-phone"><?php echo $row["vat"];?></td>
-					          <td class="hidden-phone"><?php echo $row["total"];?></td>
-					          <td class="hidden-phone"><?php echo $row["remark"];?></td>
-                    <td>
-                      <form method="POST">
-                        <button type="submit" name="accept" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Edit</button>
-                      </form>
-                    </td>
+                    <td><?php echo $row["unit"];?></td>
+					          <td><?php echo $row["quantity"];?></td>
+					          <td><input type="number" name="unit-price" onChange = "onUnitPriceChange(<?php echo $row["id"] ?>, this.value)" value=<?php echo $row["unit_price"];?>></td>
+					          <td><?php echo $row["sub_total"];?></td>
+					          <td><input maxlength="2" type="number" name="vat" onChange = "onVATChange(<?php echo $row["id"] ?>, this.value)"  value=<?php echo $row["vat"];?>>%</td>
+					          <td><?php echo $row["total"];?></td>
+					          <td><?php echo $row["remark"];?></td>
                   </tr>
                   <?php } ?>
                 </tbody>
@@ -134,6 +129,32 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/jquery.scrollTo.min.js"></script>
   <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
   <script src="lib/jquery.sparkline.js"></script>
+  <script>
+    function onUnitPriceChange(itemId, value) {
+    $.ajax({
+      type: "POST",
+      dataType: "text",
+      url: "bidding_calculator.php", //Relative or absolute path to response.php file
+      data: {item_id: itemId, value: value},
+      success: function(data) {        
+        location.reload();
+      }
+    });
+    }
+  </script>
+    <script>
+    function onVATChange(itemId, value) {
+    $.ajax({
+      type: "POST",
+      dataType: "text",
+      url: "bidding_calculator.php", //Relative or absolute path to response.php file
+      data: {item_id_vat: itemId, value_vat: value},
+      success: function(data) {    
+        location.reload();
+      }
+    });
+    }
+  </script>
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
