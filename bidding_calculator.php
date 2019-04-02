@@ -91,6 +91,8 @@ if(isset($_POST["item_id_date"])) {
         + $row["day_25"] + $row["day_26"] + $row["day_27"] + $row["day_28"] + $row["day_29"] + $row["day_30"];
     }
   
+    $result = mysqli_query($con, "UPDATE attendance_pw SET total_work_day = $total_work_day WHERE id = '$itemId'");
+
     $post_data = json_encode(array('total_work_day'=>$total_work_day), JSON_FORCE_OBJECT);
   
     echo $post_data;
