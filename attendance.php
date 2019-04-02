@@ -73,9 +73,41 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <th><i class="fa fa-bullhorn"></i> ID</th>
                     <th class="hidden-phone"><i class="fa fa-question-circle"></i> Name</th>
                     <th><i class="fa fa-bookmark"></i> Position</th>
+                    <th>Total hours</th>
+					<th><i class="fa fa-checkdate">day</i> 1 </th>
+					<th><i class="fa fa-checkdate">day</i> 2 </th>
+					<th><i class="fa fa-checkdate">day</i> 3 </th>
+					<th><i class="fa fa-checkdate">day</i> 4 </th>
+					<th><i class="fa fa-checkdate">day</i> 5 </th>
+					<th><i class="fa fa-checkdate">day</i> 6 </th>
+					<th><i class="fa fa-checkdate">day</i> 7 </th>
+					<th><i class="fa fa-checkdate">day</i> 8 </th>
+					<th><i class="fa fa-checkdate">day</i> 9 </th>
+					<th><i class="fa fa-checkdate">day</i> 10 </th>
+					<th><i class="fa fa-checkdate">day</i> 11</th>
+					<th><i class="fa fa-checkdate">day</i> 12</th>
+					<th><i class="fa fa-checkdate">day</i> 13</th>
+					<th><i class="fa fa-checkdate">day</i> 14 </th>
+					<th><i class="fa fa-checkdate">day</i> 15 </th>
+					<th><i class="fa fa-checkdate">day</i> 16 </th>
+					<th><i class="fa fa-checkdate">day</i> 17 </th>
+					<th><i class="fa fa-checkdate">day</i> 18 </th>
+					<th><i class="fa fa-checkdate">day</i> 19 </th>
+					<th><i class="fa fa-checkdate">day</i> 20</th>
+					<th><i class="fa fa-checkdate">day</i> 21</th>
+					<th><i class="fa fa-checkdate">day</i> 22</th>
+					<th><i class="fa fa-checkdate">day</i> 23</th>
+					<th><i class="fa fa-checkdate">day</i> 24</th>
+					<th><i class="fa fa-checkdate">day</i> 25</th>
+					<th><i class="fa fa-checkdate">day</i> 26</th>
+					<th><i class="fa fa-checkdate">day</i> 27</th>
+					<th><i class="fa fa-checkdate">day</i> 28</th>
+					<th><i class="fa fa-checkdate">day</i> 29</th>
+					<th><i class="fa fa-checkdate">day</i> 30</th>
                     <th></th>
                   </tr>
                 </thead>
+				
                 <tbody>
                   <?php 
                     if(mysqli_num_rows($res) == 0) {
@@ -92,17 +124,46 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     </td>
                     <td class="hidden-phone"><?php echo $row["name"];?></td>
                     <td><?php echo $row["position"]; ?> </td>
-                    <td>
-                      <form method="POST">
-                        <button type="submit" name="peresent" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-						<button type="submit" name="persmission" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-question-circle"></i></button>
-                        <button type="submit" name="absent" value="<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs"><i class="fa fa-minus-circle "></i></button>
-                      </form>
-                    </td>
-                  </tr>
+                    <td id="total-work-day-<?php echo $row['id']?>"><?php echo $row["total_work_day"];?></td>
+					<td><input max="100" min="0" id="day_1<?php echo $row["id"] ?>" type="number" name="day-1" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_1')" value=<?php echo $row["day_1"];?>></td>
+                   <td><input max="100" min="0" id="day_2<?php echo $row["id"] ?>" type="number" name="day-2" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_2')" value=<?php echo $row["day_2"];?>></td>
+				   <td><input max="100" min="0" id="day_3<?php echo $row["id"] ?>" type="number" name="day-3" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_3')" value=<?php echo $row["day_3"];?>></td>
+				   <td><input max="100" min="0" id="day_4<?php echo $row["id"] ?>" type="number" name="day-4" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_4')" value=<?php echo $row["day_4"];?>></td>
+				   <td><input max="100" min="0" id="day_5<?php echo $row["id"] ?>" type="number" name="day-5" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_5')" value=<?php echo $row["day_5"];?>></td>
+				   <td><input max="100" min="0" id="day_6<?php echo $row["id"] ?>" type="number" name="day-6" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_6')" value=<?php echo $row["day_6"];?>></td>
+				   <td><input max="100" min="0" id="day_7<?php echo $row["id"] ?>" type="number" name="day-7" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_7')" value=<?php echo $row["day_7"];?>></td>
+				   <td><input max="100" min="0" id="day_8<?php echo $row["id"] ?>" type="number" name="day-8" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_8')" value=<?php echo $row["day_8"];?>></td>
+				   <td><input max="100" min="0" id="day_9<?php echo $row["id"] ?>" type="number" name="day-9" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_9')" value=<?php echo $row["day_9"];?>></td>
+				   <td><input max="100" min="0" id="day_10<?php echo $row["id"] ?>" type="number" name="day-10" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_10')" value=<?php echo $row["day_10"];?>></td>
+				   <td><input max="100" min="0" id="day_11<?php echo $row["id"] ?>" type="number" name="day-11" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_11')" value=<?php echo $row["day_11"];?>></td>
+				   <td><input max="100" min="0" id="day_12<?php echo $row["id"] ?>" type="number" name="day-12" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_12')" value=<?php echo $row["day_12"];?>></td>
+				   <td><input max="100" min="0" id="day_13<?php echo $row["id"] ?>" type="number" name="day-13" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_13')" value=<?php echo $row["day_13"];?>></td>
+				   <td><input max="100" min="0" id="day_14<?php echo $row["id"] ?>" type="number" name="day-14" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_14')" value=<?php echo $row["day_14"];?>></td>
+				   <td><input max="100" min="0" id="day_15<?php echo $row["id"] ?>" type="number" name="day-15" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_15')" value=<?php echo $row["day_15"];?>></td>
+				   <td><input max="100" min="0" id="day_16<?php echo $row["id"] ?>" type="number" name="day-16" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_16')" value=<?php echo $row["day_16"];?>></td>
+				   <td><input max="100" min="0" id="day_17<?php echo $row["id"] ?>" type="number" name="day-17" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_17')" value=<?php echo $row["day_17"];?>></td>
+				   <td><input max="100" min="0" id="day_18<?php echo $row["id"] ?>" type="number" name="day-18" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_18')" value=<?php echo $row["day_18"];?>></td>
+           <td><input max="100" min="0" id="day_19<?php echo $row["id"] ?>" type="number" name="day-19" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_19')" value=<?php echo $row["day_19"];?>></td>
+				   <td><input max="100" min="0" id="day_20<?php echo $row["id"] ?>" type="number" name="day-20" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_20')" value=<?php echo $row["day_20"];?>></td>
+				   <td><input max="100" min="0" id="day_21<?php echo $row["id"] ?>" type="number" name="day-21" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_21')" value=<?php echo $row["day_21"];?>></td>
+				   <td><input max="100" min="0" id="day_22<?php echo $row["id"] ?>" type="number" name="day-22" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_22')" value=<?php echo $row["day_22"];?>></td>
+				   <td><input max="100" min="0" id="day_23<?php echo $row["id"] ?>" type="number" name="day-23" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_23')" value=<?php echo $row["day_23"];?>></td>
+				   <td><input max="100" min="0" id="day_24<?php echo $row["id"] ?>" type="number" name="day-24" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_24')" value=<?php echo $row["day_24"];?>></td>
+				   <td><input max="100" min="0" id="day_25<?php echo $row["id"] ?>" type="number" name="day-25" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_25')" value=<?php echo $row["day_25"];?>></td>
+				   <td><input max="100" min="0" id="day_26<?php echo $row["id"] ?>" type="number" name="day-26" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_26')" value=<?php echo $row["day_26"];?>></td>
+				   <td><input max="100" min="0" id="day_27<?php echo $row["id"] ?>" type="number" name="day-27" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_27')" value=<?php echo $row["day_27"];?>></td>
+				   <td><input max="100" min="0" id="day_28<?php echo $row["id"] ?>" type="number" name="day-28" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_28')" value=<?php echo $row["day_28"];?>></td>
+				   <td><input max="100" min="0" id="day_29<?php echo $row["id"] ?>" type="number" name="day-29" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_29')" value=<?php echo $row["day_29"];?>></td>
+				   <td><input max="100" min="0" id="day_30<?php echo $row["id"] ?>" type="number" name="day-30" onChange = "ondaychange(<?php echo $row["id"] ?>, this.value, 'day_30')" value=<?php echo $row["day_30"];?>></td>
+				   </tr>
                   <?php } ?>
                 </tbody>
               </table>
+			  <div class="registration">
+            <a class="" href="clear_table.php">
+              clear table
+              </a>
+          </div>
               <?php
                 } else {
                   ?>
@@ -111,48 +172,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                 }
 				
 
-                if(isset($_POST["peresent"])) {
-                  $email = $_POST["peresent"];
-                  $res = $db->acceptSignUpRequest($email);
-
-                  if($res) {
-                    ?>
-                    <div>You have accepted the request!</div>
-                    <?php
-                    echo "<meta http-equiv='refresh' content='0'>";
-                  } else {
-                    ?>
-                    <div>Something went wrong!</div>
-                    <?php
-                  }
-                }else if(isset($_POST["persmission"])) {
-                  $email = $_POST["persmission"];
-				 
-                  $res = $db->declineSignUpRequest($email);
-                  if($res) {
-                    ?>
-                    <div>You have accepted the request!</div>
-                    <?php
-                    echo "<meta http-equiv='refresh' content='0'>";                       
-                  } else {
-                    ?>
-                    <div>Something went wrong!</div>
-                    <?php
-                  }
-                }else if(isset($_POST["absent"])) {
-                  $email = $_POST["absent"];
-                  $res = $db->declineSignUpRequest($email);
-                  if($res) {
-                    ?>
-                    <div>You have accepted the request!</div>
-                    <?php
-                    echo "<meta http-equiv='refresh' content='0'>";                       
-                  } else {
-                    ?>
-                    <div>Something went wrong!</div>
-                    <?php
-                  }
-                }
               ?>
             </div>
             <!-- /content-panel -->
@@ -174,6 +193,19 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
   <script src="lib/jquery.sparkline.js"></script>
   <!--common script for all pages-->
+  <script>
+    function ondaychange(itemId, value, day) {
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      url: "bidding_calculator.php", //Relative or absolute path to response.php file
+      data: {item_id_date: itemId, value_date: value, day: day},
+      success: function(data) {        
+        $("#total-work-day-"+itemId).html(data.total_work_day);
+      }
+    });
+    }
+  </script>
   <script src="lib/common-scripts.js"></script>
   <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
   <script type="text/javascript" src="lib/gritter-conf.js"></script>
