@@ -87,28 +87,42 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     while($row = mysqli_fetch_array($res)) {
                   ?>
                   <tr>
-                    <td><input type="checkbox"/></td>
+                    <td><input id="checked<?php echo $row['id']?>" onchange="onItemChecked(this.checked, <?php echo $row['id']?>)" type="checkbox"/></td>
                     <td><?php echo $row["id"]; ?> </td>
                     <td><?php echo $row["requestor_name"]; ?> </td>
                     <td><?php echo $row["unit"];?></td>
 					          <td><?php echo $row["quantity"];?></td>
 					          <td><input id="unitprice<?php echo $row["id"] ?>" type="number" name="unit-price" onChange = "onUnitPriceChange(<?php echo $row["id"] ?>, this.value)" value=<?php echo $row["unit_price"];?>></td>
 					          <td id="subtotal<?php echo $row['id']?>"><?php echo $row["sub_total"]?></td>
-					          <td><input id="vat<?php echo $row['id']?>" maxlength="2" type="number" name="vat" onChange = "onVATChange(<?php echo $row["id"] ?>, this.value)"  value=<?php echo $row["vat"];?>>%</td>
+					          <td><input id="vat<?php echo $row['id']?>" max="100" min="0" type="number" name="vat" onChange = "onVATChange(<?php echo $row["id"] ?>, this.value)"  value=<?php echo $row["vat"];?>>%</td>
 					          <td id="total<?php echo $row['id']?>"><?php echo $row["total"];?></td>
 					          <td><?php echo $row["remark"];?></td>
                   </tr>
                   <?php } ?>
+                  <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <h4>Subtotal : <span id="subtotal-all">0</span> ETB</h4>
+                        <h4>Total : <span id="total-all">0</span> ETB</h4>
+                      </td>
+                  </tr>
                 </tbody>
               </table>
+              <button style="float: right; margin-right: 10px;" class="btn btn-primary"> Send</button>
               <?php
                 } else {
                   ?>
                   <div>Something went wrong!</div>
                   <?php
                 }
-
-           
               ?>
             </div>
             <!-- /content-panel -->
@@ -130,6 +144,8 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
   <script src="lib/jquery.sparkline.js"></script>
   <script>
+    var entireTotal = 0;
+    var entireSubTotal = 0;
     function onUnitPriceChange(itemId, value) {
     $.ajax({
       type: "POST",
@@ -143,8 +159,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
       }
     });
     }
-  </script>
-    <script>
+
     function onVATChange(itemId, value) {
     $.ajax({
       type: "POST",
@@ -158,6 +173,20 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
       }
     });
     }
+
+    function onItemChecked(value, id) {
+      let subtotal_temp = $("#subtotal"+id).html();
+      let total_temp = $("#total"+id).html();
+      if(value) {
+        entireSubTotal += +subtotal_temp;
+        entireTotal += +total_temp;
+      } else {
+        entireSubTotal -= +subtotal_temp;
+        entireTotal -= +total_temp;
+      }
+      $("#subtotal-all").html(entireSubTotal);
+      $("#total-all").html(entireTotal);
+    }
   </script>
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
@@ -167,7 +196,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/sparkline-chart.js"></script>
   <script src="lib/zabuto_calendar.js"></script>  
 </body>
-
 </html>
 <?php
 } else {
