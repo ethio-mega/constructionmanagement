@@ -64,8 +64,8 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                 <div class="steps pn">
                   <a href="direct_bidding.php"><label for='op1'>Direct Bidding</label></a>
                   <a href="limited_procurement.php"><label for='op2'>Limited Procurement</label></a>
-                  <a><label for='op3'>Giltse Chareta</label></a>
-                  <a href="proforma_form.php"><label for='op3'>Proforma</label></a>
+                  <a href="open_procurment.php"><label for='op3'>Open Procurement</label></a>
+                  <a href="proforma_form.php"><label for='op4'>Proforma</label></a>
                 </div>
               </div>
           </div>
@@ -118,18 +118,19 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   ?>
                   <tr>
 				  	<td><?php echo $row["id"];?></td>
-                    <td><?php echo $row["purchasor_name"]; ?>
+                    <td><?php echo $row["requestor_name"]; ?>
                     </td>
-                    <td><?php echo $row["type"];?></td>
-                    <td><?php echo $row["standard"]; ?> </td>
-					<td><?php echo $row["amount"]; ?> </td>
+                    <td><?php echo $row["material_description"];?></td>
+                    <td><?php echo $row["unit"]; ?> </td>
+					<td><?php echo $row["quantity"]; ?> </td>
 					<td><?php echo $row["remark"]; ?> </td>
                     <td>
-                      <form method="POST">
-                        <button name="assign_db"  type="submit" class="btn btn-round btn-warning">DB</button>
-						<button name="assign_lp"  type="submit" class="btn btn-round btn-warning">LP</button>
-						<button name="assign_op"  type="submit" class="btn btn-round btn-warning">OP</button>
-						<button name="assign_pro"  type="submit" class="btn btn-round btn-warning">Pro</button>
+                      
+					  <form method="POST">
+                        <button type="submit" name="assign_db" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs">DB</button>
+                        <button type="submit" name="assign_lp" value="<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs">LP</i></button>
+                        <button type="submit" name="assign_op" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs">OP</i></button>
+                        <button type="submit" name="assign_pro" value="<?php echo $row["id"]; ?>" class="btn btn-danger btn-xs">Pro</i></button>
                       </form>
                     </td>
                   </tr>
@@ -143,25 +144,13 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   <?php
                 }
 
-                if(isset($_POST["assign_db"])) {
-					include_once 'db_functions.php';
-                $db = new DB_Functions();
-                  //Insert the requests into MySQL DB
-				 /*
-				  $db = new DB_Functions();
-				  $id = $_POST["id"];
-                  $purchasorName = $_POST["purchasor_name"];
-                  $type = $_POST["type"];
-                  $standard = $_POST["standard"];
-                  $amount = $_POST["amount"];
-				   $remarks = $_POST["remarks"];
-				 */
-				   
-                  $res = $db->assign_direct_biding();
+               if(isset($_POST["assign_db"])) {
+                  $id = $_POST["assign_db"];
+                  $res = $db->assigntodirectbidding($id);
 
                   if($res) {
                     ?>
-                    <div>You have assign to direct bidding!</div>
+                    <div>You have assigned to the direct bidding!</div>
                     <?php
                     echo "<meta http-equiv='refresh' content='0'>";
                   } else {
@@ -169,17 +158,12 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <div>Something went wrong!</div>
                     <?php
                   }
-                } else if(isset($_POST["assign_lp"])) {
-					$db = new DB_Functions();
-				  $purchasorName = $_POST["purchasor_name"];
-                  $type = $_POST["type"];
-                  $standard = $_POST["standard"];
-                  $amount = $_POST["amount"];
-				  $remarks = $_POST["remarks"];
-                  $res = $db->assign_limited_pro($purchasorName, $type, $standard, $amount, $remarks);
+                }else if(isset($_POST["assign_lp"])) {
+                  $id = $_POST["assign_lp"];
+                  $res = $db->assigntolp($id);
                   if($res) {
                     ?>
-                    <div>You have assign to limited procurment!</div>
+                    <div>You have assigned to the limited procurment!</div>
                     <?php
                     echo "<meta http-equiv='refresh' content='0'>";                       
                   } else {
@@ -188,16 +172,11 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <?php
                   }
                 }else if(isset($_POST["assign_op"])) {
-					$db = new DB_Functions();
-                  $purchasorName = $_POST["purchasor_name"];
-                  $type = $_POST["type"];
-                  $standard = $_POST["standard"];
-                  $amount = $_POST["amount"];
-				   $remarks = $_POST["remarks"];
-                  $res = $db->assign_open_pro($purchasorName, $type, $standard, $amount, $remarks);
+                  $id = $_POST["assign_op"];
+                  $res = $db->assigntoop($id);
                   if($res) {
                     ?>
-                    <div>You have assign to open procurment!</div>
+                    <div>You have assgined to the open procurment!</div>
                     <?php
                     echo "<meta http-equiv='refresh' content='0'>";                       
                   } else {
@@ -206,16 +185,11 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <?php
                   }
                 }else if(isset($_POST["assign_pro"])) {
-					$db = new DB_Functions();
-                  $purchasorName = $_POST["purchasor_name"];
-                  $type = $_POST["type"];
-                  $standard = $_POST["standard"];
-                  $amount = $_POST["amount"];
-				   $remarks = $_POST["remarks"];
-                  $res = $db->assign_proforma($purchasorName, $type, $standard, $amount, $remarks);
+                  $id = $_POST["assign_pro"];
+                  $res = $db->assigntopro($id);
                   if($res) {
                     ?>
-                    <div>You have assign to proforma!</div>
+                    <div>You have assigned the proforma!</div>
                     <?php
                     echo "<meta http-equiv='refresh' content='0'>";                       
                   } else {
@@ -224,6 +198,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <?php
                   }
                 }
+			   
               ?>
             </div>
             <!-- /content-panel -->

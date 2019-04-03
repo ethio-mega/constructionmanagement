@@ -117,14 +117,29 @@ class DB_Functions {
      */
     public function getBiddingRequests() {
         $connection = $this->db->connect();    
-        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance=1 AND accept_by_inventory = 1 AND accept_by_pm = 1");
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance=1 AND accept_by_inventory = 1 AND accept_by_pm = 1 and catagory = 1 ");
+        return $result;
+    }
+	    public function getOpenProRequests() {
+        $connection = $this->db->connect();    
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance=1 AND accept_by_inventory = 1 AND accept_by_pm = 1 and catagory = 3 ");
+        return $result;
+    }
+	    public function getLimitedProRequests() {
+        $connection = $this->db->connect();    
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance=1 AND accept_by_inventory = 1 AND accept_by_pm = 1 and catagory = 2 ");
+        return $result;
+    }
+	    public function getProRequests() {
+        $connection = $this->db->connect();    
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance=1 AND accept_by_inventory = 1 AND accept_by_pm = 1 and catagory = 4 ");
         return $result;
     }
 	
     
 	public function getApprovedMaterial() {
         $connection = $this->db->connect();    
-        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance = 1 and accept_by_inventory = 1 and accept_by_pm =1");
+        $result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_finance = 1 and accept_by_inventory = 1 and accept_by_pm =1 and catagory = 0");
         return $result;
     }
 	 public function getLimitedProcurmentRequests() {
@@ -370,42 +385,27 @@ class DB_Functions {
     }
 	
 	//catagorize approved materail in to different purchasing methods
-	public function assign_direct_biding($id, $purchasorName, $type, $standard, $amount, $remarks) {
-			$connection = $this->db->connect();
-			$result = mysqli_query($connection, "INSERT INTO bidding_request(id, purchasor_name, type, standard, amount, remarks) values('$id', '$purchasorName', '$type', '$standard', '$amount','$remarks')");
-        if($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-	public function assign_limited_pro($purchasorName, $type, $standard, $amount, $remarks) {
-			$connection = $this->db->connect();
-			$result = mysqli_query($connection, "INSERT INTO bidding_request(purchasor_name, type, standard, amount, remarks) values('$purchasorName', '$type', '$standard', '$amount','$remarks')");
-        if($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-	public function assign_open_pro($purchasorName, $type, $standard, $amount, $remarks) {
-			$connection = $this->db->connect();
-			$result = mysqli_query($connection, "INSERT INTO bidding_request(purchasor_name, type, standard, amount, remarks) values('$purchasorName', '$type', '$standard', '$amount','$remarks')");
-        if($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-	public function assign_proforma($purchasorName, $type, $standard, $amount, $remarks) {
-			$connection = $this->db->connect();
-			$result = mysqli_query($connection, "INSERT INTO bidding_request(purchasor_name, type, standard, amount, remarks) values('$purchasorName', '$type', '$standard', '$amount','$remarks')");
-        if($result) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	public function assigntodirectbidding($id){
+        $connection = $this->db->connect();            
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET catagory = 1 WHERE id = '$id'");
+		return $result;
+	}
+	public function assigntolp($id){
+        $connection = $this->db->connect();            
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET catagory = 2 WHERE id = '$id'");
+		return $result;
+	}
+	public function assigntoop($id){
+        $connection = $this->db->connect();            
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET catagory = 3 WHERE id = '$id'");
+		return $result;
+	}
+	public function assigntopro($id){
+        $connection = $this->db->connect();            
+		$result = mysqli_query($connection, "UPDATE purchasing_request SET catagory = 4 WHERE id = '$id'");
+		return $result;
+	}
+	//send purchased material to inventory and projenct manager
 	
 
   } ?>

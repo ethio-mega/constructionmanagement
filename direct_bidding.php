@@ -87,33 +87,62 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     while($row = mysqli_fetch_array($res)) {
                   ?>
                   <tr>
-                    <td><input type="checkbox"/></td>
+                    <td><input id="checked<?php echo $row['id']?>" onchange="onItemChecked(this.checked, <?php echo $row['id']?>)" type="checkbox"/></td>
                     <td><?php echo $row["id"]; ?> </td>
                     <td><?php echo $row["requestor_name"]; ?> </td>
-                    <td class="hidden-phone"><?php echo $row["unit"];?></td>
-					          <td class="hidden-phone"><?php echo $row["quantity"];?></td>
-					          <td class="hidden-phone"><?php echo $row["unit_price"];?></td>
-					          <td class="hidden-phone"><?php echo $row["sub_total"];?></td>
-					          <td class="hidden-phone"><?php echo $row["vat"];?></td>
-					          <td class="hidden-phone"><?php echo $row["total"];?></td>
-					          <td class="hidden-phone"><?php echo $row["remark"];?></td>
-                    <td>
-                      <form method="POST">
-                        <button type="submit" name="accept" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Edit</button>
-                      </form>
-                    </td>
+                    <td><?php echo $row["unit"];?></td>
+					          <td><?php echo $row["quantity"];?></td>
+					          <td><input id="unitprice<?php echo $row["id"] ?>" type="number" name="unit-price" onChange = "onUnitPriceChange(<?php echo $row["id"] ?>, this.value)" value=<?php echo $row["unit_price"];?>></td>
+					          <td id="subtotal<?php echo $row['id']?>"><?php echo $row["sub_total"]?></td>
+					          <td><input id="vat<?php echo $row['id']?>" max="100" min="0" type="number" name="vat" onChange = "onVATChange(<?php echo $row["id"] ?>, this.value)"  value=<?php echo $row["vat"];?>>%</td>
+					          <td id="total<?php echo $row['id']?>"><?php echo $row["total"];?></td>
+					          <td><?php echo $row["remark"];?></td>
                   </tr>
                   <?php } ?>
+                  <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        <h4>Subtotal : <span id="subtotal-all">0</span> ETB</h4>
+                        <h4>Total : <span id="total-all">0</span> ETB</h4>
+                      </td>
+                  </tr>
                 </tbody>
               </table>
+			  <form method = "POST"?
+              <button name="send"  type="submit" class="btn btn-round btn-warning">Send</button>
+			  </form>
               <?php
                 } else {
                   ?>
                   <div>Something went wrong!</div>
                   <?php
                 }
+				if(isset($_POST["send"])) {
+                  if(onItemChecked ==true){
+					  $id = $_POST["send"];
+					  $res = $db->sendtoinventory($id);
+				  }
+                  
 
-           
+                  if($res) {
+                    ?>
+                    <div>You have send to the inventory!</div>
+                    <?php
+                    echo "<meta http-equiv='refresh' content='0'>";
+                  } else {
+                    ?>
+                    <div>Something went wrong!</div>
+                    <?php
+                  }
+                }
               ?>
             </div>
             <!-- /content-panel -->
@@ -134,6 +163,51 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/jquery.scrollTo.min.js"></script>
   <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
   <script src="lib/jquery.sparkline.js"></script>
+  <script>
+    var entireTotal = 0;
+    var entireSubTotal = 0;
+    function onUnitPriceChange(itemId, value) {
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      url: "bidding_calculator.php", //Relative or absolute path to response.php file
+      data: {item_id: itemId, value: value},
+      success: function(data) {        
+        $("#subtotal"+itemId).html(data.subtotal);
+        $("#vat"+itemId).val(data.vat);
+        $("#total"+itemId).html(data.total);
+      }
+    });
+    }
+
+    function onVATChange(itemId, value) {
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      url: "bidding_calculator.php", //Relative or absolute path to response.php file
+      data: {item_id_vat: itemId, value_vat: value},
+      success: function(data) {               
+        $("#subtotal"+itemId).html(data.subtotal);
+        $("#vat"+itemId).val(data.vat);
+        $("#total"+itemId).html(data.total);
+      }
+    });
+    }
+
+    function onItemChecked(value, id) {
+      let subtotal_temp = $("#subtotal"+id).html();
+      let total_temp = $("#total"+id).html();
+      if(value) {
+        entireSubTotal += +subtotal_temp;
+        entireTotal += +total_temp;
+      } else {
+        entireSubTotal -= +subtotal_temp;
+        entireTotal -= +total_temp;
+      }
+      $("#subtotal-all").html(entireSubTotal);
+      $("#total-all").html(entireTotal);
+    }
+  </script>
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
@@ -142,7 +216,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/sparkline-chart.js"></script>
   <script src="lib/zabuto_calendar.js"></script>  
 </body>
-
 </html>
 <?php
 } else {

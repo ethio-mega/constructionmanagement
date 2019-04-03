@@ -125,7 +125,8 @@
               <span>Finance</span>
               </a>
               <ul class="sub">
-                <li><a href="approve_purchasing_request_casher.php">Purchasing</a></li>
+                <li><a href="approve_purchasing_request_casher.php">Approve Purchasing Request</a></li>
+				<li><a href="labour_pay_roll.php">Labour Pay Roll</a></li>
               </ul>
           </li>
 		   <li class="sub-menu">

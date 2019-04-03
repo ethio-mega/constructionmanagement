@@ -54,7 +54,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
               <?php 
                 include_once 'db_functions.php';
                 $db = new DB_Functions();
-                $res = $db->getLimitedProRequests();
+                $res = $db->getOpenProRequests();
 
                 if($res) {
               ?>
