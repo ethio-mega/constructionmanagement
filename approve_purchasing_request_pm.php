@@ -91,8 +91,8 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     </td>
                     <td class="hidden-phone"><?php echo $row["material_description"];?></td>
                     <td><?php echo $row["unit"]; ?> </td>
-					<td><?php echo $row["quantity"]; ?> </td>
-					<td><?php echo $row["remark"]; ?> </td>
+					          <td><?php echo $row["quantity"]; ?> </td>
+					          <td><?php echo $row["remark"]; ?> </td>
                     <td>
                       <form method="POST">
                         <button type="submit" name="accept" value="<?php echo $row["id"]; ?>" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
