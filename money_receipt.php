@@ -94,6 +94,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   </div>
                 </div> 
               </form>
+			  
               <?php
                 include_once './db_functions.php';
                 if(isset($_POST["request"])) {
@@ -122,6 +123,9 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
         <!-- /row -->
       </section>
       <!-- /wrapper -->
+                <div class="steps pn">
+                  <a href="view_current_capital.php"><label for='op1'>View Current Capital</label></a>
+                </div>
     </section>
     <!-- /MAIN CONTENT -->
 	
