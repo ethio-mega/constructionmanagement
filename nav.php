@@ -125,6 +125,7 @@
               <span>Finance</span>
               </a>
               <ul class="sub">
+				<li><a href="money_receipt.php">Receipt Voucher</a></li>
                 <li><a href="approve_purchasing_request_casher.php">Approve Purchasing Request</a></li>
 				<li><a href="labour_pay_roll.php">Labour Pay Roll</a></li>
               </ul>

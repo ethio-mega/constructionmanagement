@@ -383,7 +383,15 @@ class DB_Functions {
             return false;
         }
     }
-	
+	public function receive_money($source, $reason, $date, $amount){
+		$connection = $this->db->connect();
+		$result = mysqli_query($connection, "INSERT INTO money_receipt(source, reason, date, amount) VALUES('$source', '$reason','$date', '$amount')");
+		if($result){
+			return true;
+		}else {
+			return false;
+		}
+	}
 	//catagorize approved materail in to different purchasing methods
 	public function assigntodirectbidding($id){
         $connection = $this->db->connect();            
