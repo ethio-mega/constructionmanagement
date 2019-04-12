@@ -116,24 +116,18 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   </tr>
                 </tbody>
               </table>
-<<<<<<< HEAD
-			  <form method = "POST"?
-              <button name="send"  type="submit" class="btn btn-round btn-warning">Send</button>
-			  </form>
-=======
               <button style="float: right; margin-right: 10px;" class="btn btn-primary"> Send</button>
->>>>>>> 5b984cf50c88d8ed49c6d0409309f229e2fd2df0
               <?php
                 } else {
                   ?>
                   <div>Something went wrong!</div>
                   <?php
                 }
-<<<<<<< HEAD
-				if(isset($_POST["send"])) {
+
+				    if(isset($_POST["send"])) {
                   if(onItemChecked ==true){
-					  $id = $_POST["send"];
-					  $res = $db->sendtoinventory($id);
+					    $id = $_POST["send"];
+					   $res = $db->sendtoinventory($id);
 				  }
                   
 
@@ -148,8 +142,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <?php
                   }
                 }
-=======
->>>>>>> 5b984cf50c88d8ed49c6d0409309f229e2fd2df0
               ?>
             </div>
             <!-- /content-panel -->
