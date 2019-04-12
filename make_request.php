@@ -88,8 +88,9 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                     <select name="remarks" class="btn btn-default" required>
             <option value="" selected="true" disabled>Select Remark</option>
 			<option value="construction_material">Construction Material</option>
-			<option value="engine_material">Engine Material</option>
-			<option value="wested_material">wested Material</option>
+			<option value="stationary_material">stationary Material</option>
+			<option value="machine_carpentry_material">Machine and Carpentry Material</option>
+			<option value="others">Others</option>
           </select>
                   </div>
                 </div>
