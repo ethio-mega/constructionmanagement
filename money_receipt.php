@@ -90,14 +90,14 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label"></label>
                   <div class="col-sm-3">
-                    <button name="request"  type="submit" class="btn btn-round btn-warning">Send Request</button>   
+                    <button name="send"  type="submit" class="btn btn-round btn-warning">Send Request</button>   
                   </div>
                 </div> 
               </form>
 			  
               <?php
                 include_once './db_functions.php';
-                if(isset($_POST["request"])) {
+                if(isset($_POST["send"])) {
                   $db = new DB_Functions();
                   //Insert the requests into MySQL DB
                   $source = $_POST["source"];

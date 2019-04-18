@@ -156,6 +156,11 @@ class DB_Functions {
 	/**
 	* Getting all request from Purchaser
 	*/
+	public function getCurrentcapital(){
+		$connection = $this->db->connect();
+		$result = mysqli_query($connection,"SELECT * FROM money_receipt");
+		return $result;
+	}
 	public function getrequestFromPurchaser_inventory() {
 		$connection = $this->db->connect();
 		$result = mysqli_query($connection, "SELECT * FROM purchasing_request where accept_by_inventory = 0");
