@@ -93,7 +93,7 @@ if(isset($_SESSION["loggedin"]) == true) {
                     <span class="label label-warning"><i class="fa fa-bell"></i></span>
                     Approved Request but not received
                     <span class="small italic"> 0</span>
-                    </a>
+                  </a>
                 </li>
               </ul>
             </li>
