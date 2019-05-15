@@ -1,7 +1,4 @@
-<?php
-session_start();
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,9 +55,9 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
              <form class="form-horizontal style-form" method="post">
 			   
               <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">Requestor Name</label>
+                  <label class="col-sm-2 col-sm-2 control-label" >Requestor Name</label>
                   <div class="col-sm-3">
-                    <input name="purchasor_name" type="text"  class="form-control" required>
+                    <input name="purchasor_name" type="text" value="<?php echo ucfirst($_SESSION["firstname"])." ".ucfirst($_SESSION["lastname"])?>"  class="form-control" required>
                   </div>
                 </div>
                 <div class="form-group">
@@ -112,11 +109,10 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                   $amount = $_POST["amount"];
 				   $remarks = $_POST["remarks"];
                   $res = $db-> sendPurchaserRequest($purchasorName, $type, $standard, $amount, $remarks);
-
                   //Check if the value is inserted successfully
                   if($res) {
                     
-                  } else {?>
+                  } else { ?>
                     <div id="msg">We couldn't register your request at the moment.</div>
                     <div id="msg">Please, try again later.</div>                    
                   <?php
@@ -157,8 +153,3 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
 </body>
 
 </html>
-<?php
-} else {
-  header("Location: login.php");     
-}
-?>

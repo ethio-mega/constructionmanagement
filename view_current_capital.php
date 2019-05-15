@@ -1,7 +1,4 @@
-<?php 
-session_start();  
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { 
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,8 +178,3 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
   <script src="lib/zabuto_calendar.js"></script>  
 </body>
 </html>
-<?php
-} else {
-  header("Location: login.php");     
-}
-?>

@@ -113,6 +113,7 @@
                $_SESSION["firstname"] = $row["first_name"];
                $_SESSION["lastname"] = $row["last_name"];
                $_SESSION["role"] = $row["role"];
+               $_SESSION["e_mail"] = $row["e_mail"];
             }   
             if(isset($_SESSION["login_chances"])) {
               unset($_SESSION['login_chances']);
